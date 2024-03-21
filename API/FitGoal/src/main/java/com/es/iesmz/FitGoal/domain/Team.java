@@ -16,11 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Entity
-
-@Table (name="Team")
-
-
+@Entity (name="Team")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Team {
 

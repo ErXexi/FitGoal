@@ -45,16 +45,16 @@ public class Player {
 
     @NotBlank
     @Size(max = 20)
-    @Column(name = "crest")
+    @Column(name = "photo")
     @Schema(description = "Player's photo", example = "pathToImage", required = true)
     private String photo;
 
 
-    @Column(name = "Yellow cards")
+    @Column(name = "Yellow_cards")
     @Schema(description = "Player's yellow cards", example = "1")
     private int yellowCards;
 
-    @Column(name = "Red cards")
+    @Column(name = "Red_cards")
     @Schema(description = "Player's red cards", example = "1")
     private int redCards;
 
@@ -63,7 +63,7 @@ public class Player {
     private int minutes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id") // Esto creará una columna de clave foránea en la tabla 'Player'
+    @JoinColumn(name = "team_id")
     private Team team;
 
     public Player(String name, String surname, List<Position> positions, String photo, int yellowCards, int redCards, int minutes, Team team) {

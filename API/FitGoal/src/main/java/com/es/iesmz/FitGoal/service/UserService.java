@@ -7,4 +7,6 @@ import java.util.Set;
 
 public interface UserService {
     Set<User> findAll();
+    Boolean existsByEmail(String email);
+    User findByEmail(String email);
 }

@@ -2,6 +2,7 @@ package com.es.iesmz.FitGoal.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,8 +11,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name = "session")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Entity(name = "session")
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

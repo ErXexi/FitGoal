@@ -15,4 +15,14 @@ public class UserServiceImpl implements UserService{
     public Set<User> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

@@ -2,13 +2,18 @@ package com.es.iesmz.FitGoal.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
-@Entity
-@Table(name="Staff")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Entity(name="Staff")
 public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +35,13 @@ public class Staff {
 
     @Column(name = "role")
     @Schema(description = "Staff's role", example = "Coach", required = true)
-    private StaffRole role;
+    private String role;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Staff(String name, String surname, StaffRole role, Team team) {
+    public Staff(String name, String surname, String role, Team team) {
         this.name = name;
         this.surname = surname;
         this.role = role;

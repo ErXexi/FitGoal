@@ -1,8 +1,25 @@
 package com.es.iesmz.FitGoal.service;
 
+import com.es.iesmz.FitGoal.domain.Tag;
+import com.es.iesmz.FitGoal.repository.TagRepository;
 import com.es.iesmz.FitGoal.service.TagService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 public class TagServiceImpl implements TagService {
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Override
+    public Set<Tag> findAll() {
+        return tagRepository.findAll();
+    }
+
+    @Override
+    public Set<Tag> findByName(String name) {
+        return tagRepository.findByName(name);
+    }
 }

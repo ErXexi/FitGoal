@@ -3,13 +3,18 @@ package com.es.iesmz.FitGoal.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-@Entity
-@Table(name="Match")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@Entity(name="Match")
 public class Match {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,5 +49,5 @@ public class Match {
 
     @Column(name = "day")
     @Schema(description = "Match's day", example = "1", required = true)
-    private String day;
+    private int day;
 }
