@@ -53,9 +53,31 @@ public class SessionController {
             @ApiResponse(responseCode = "200", description = "Session list",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Session.class)))
             )})
-    @GetMapping("/exercise")
+    @GetMapping("/session")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Set<Session>> getExercises(){
+    public ResponseEntity<Set<Session>> getSession(){
         return new ResponseEntity<>(sessionService.findAll(), HttpStatus.OK);
     }
+
+    @Operation(summary = "Get session by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "find session by id",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Session.class)))
+            )})
+    @GetMapping("/session/id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Set<Session>> getSessionById(@PathVariable Long id){
+        return new ResponseEntity<>(sessionService.findById(id), HttpStatus.OK);
+    }
+    @Operation(summary = "Get session by creator id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "find season by creator id",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Session.class)))
+            )})
+    @GetMapping("/session/creator-id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Optional<Session>> getSessionByCreatorId(@PathVariable Long id){
+        return new ResponseEntity<>(sessionService.findByCreatorId(id), HttpStatus.OK);
+    }
+
 }
