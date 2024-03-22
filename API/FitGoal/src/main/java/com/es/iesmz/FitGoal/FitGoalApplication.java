@@ -1,6 +1,6 @@
 package com.es.iesmz.FitGoal;
 
-import com.es.iesmz.transita3.Transita.Utils.Util;
+import com.es.iesmz.FitGoal.Utils.Util;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

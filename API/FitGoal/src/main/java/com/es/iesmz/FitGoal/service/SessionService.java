@@ -7,6 +7,6 @@ import java.util.Set;
 
 public interface SessionService {
     Set<Session> findAll();
-    Set<Session> findById(Long id);
-    Optional<Session> findByCreatorId(Long id);
+    Optional<Session> findById(Long id);
+    Set<Session> findByCreatorId(Long id);
 }

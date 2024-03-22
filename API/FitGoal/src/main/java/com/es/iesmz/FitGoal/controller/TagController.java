@@ -2,9 +2,7 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
-import com.es.iesmz.FitGoal.domain.ERole;
-import com.es.iesmz.FitGoal.domain.Role;
-import com.es.iesmz.FitGoal.domain.User;
+import com.es.iesmz.FitGoal.domain.*;
 import com.es.iesmz.FitGoal.payload.request.UserLoginRequest;
 import com.es.iesmz.FitGoal.payload.request.UserSignupRequest;
 import com.es.iesmz.FitGoal.payload.response.JwtResponse;
@@ -13,9 +11,16 @@ import com.es.iesmz.FitGoal.repository.RoleRepository;
 import com.es.iesmz.FitGoal.repository.UserRepository;
 import com.es.iesmz.FitGoal.security.jwt.JwtUtils;
 import com.es.iesmz.FitGoal.security.services.UserDetailsImpl;
+import com.es.iesmz.FitGoal.service.TagService;
 import com.es.iesmz.FitGoal.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,4 +47,28 @@ import java.util.stream.Collectors;
 @RestController
 public class TagController {
 
+    @Autowired
+    TagService tagService;
+
+    @Operation(summary = "Get all tags")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tag list",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Tag.class)))
+            )})
+    @GetMapping("/tag")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Set<Tag>> getTags(){
+        return new ResponseEntity<>(tagService.findAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get tag by name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Find tag by name",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Tag.class)))
+            )})
+    @GetMapping("/tag/{name}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Optional<Tag>> getTagsByName(@PathVariable String name){
+        return new ResponseEntity<>(tagService.findByName(name), HttpStatus.OK);
+    }
 }

@@ -16,6 +16,12 @@ import com.es.iesmz.FitGoal.security.services.UserDetailsImpl;
 import com.es.iesmz.FitGoal.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,4 +48,28 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
 
+    @Autowired
+    UserService userService;
+
+    @Operation(summary = "Get all users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User list",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))
+            )})
+    @GetMapping("/team/id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Set<User>> getUsers(){
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get user by email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Find user by email",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))
+            )})
+    @GetMapping("/team/id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<User> getUsersByEmail(@PathVariable String email){
+        return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
+    }
 }

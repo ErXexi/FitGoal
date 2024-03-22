@@ -28,20 +28,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 //https://github.com/bezkoder/spring-boot-spring-security-jwt-authentication
@@ -54,7 +43,7 @@ public class ExerciseController {
 
     @Operation(summary = "Get all Exercises")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Listado de puntos",
+            @ApiResponse(responseCode = "200", description = "Exercices list",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Exercise.class)))
             )})
     @GetMapping("/exercise")
@@ -65,18 +54,18 @@ public class ExerciseController {
 
     @Operation(summary = "Get exercise by Id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Listado de puntos",
+            @ApiResponse(responseCode = "200", description = "find exercise by id",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Exercise.class)))
             )})
     @GetMapping("/exercise/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Optional<Exercise>> getExerciseById(@PathVariable Long id){
+    public ResponseEntity<Exercise> getExerciseById(@PathVariable Long id){
         return new ResponseEntity<>(exerciseService.findById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Get exercise by Tag")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Listado de puntos",
+            @ApiResponse(responseCode = "200", description = "find exercises by tag",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Exercise.class)))
             )})
     @GetMapping("/exercise/tag/{tag}")

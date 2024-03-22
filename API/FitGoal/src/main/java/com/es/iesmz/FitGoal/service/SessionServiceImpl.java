@@ -24,7 +24,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public Optional<Session> findByCreatorId(Long id) {
+    public Set<Session> findByCreatorId(Long id) {
         return sessionRepository.findByCreatorId(id);
     }
 }

@@ -2,9 +2,7 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
-import com.es.iesmz.FitGoal.domain.ERole;
-import com.es.iesmz.FitGoal.domain.Role;
-import com.es.iesmz.FitGoal.domain.User;
+import com.es.iesmz.FitGoal.domain.*;
 import com.es.iesmz.FitGoal.payload.request.UserLoginRequest;
 import com.es.iesmz.FitGoal.payload.request.UserSignupRequest;
 import com.es.iesmz.FitGoal.payload.response.JwtResponse;
@@ -13,9 +11,16 @@ import com.es.iesmz.FitGoal.repository.RoleRepository;
 import com.es.iesmz.FitGoal.repository.UserRepository;
 import com.es.iesmz.FitGoal.security.jwt.JwtUtils;
 import com.es.iesmz.FitGoal.security.services.UserDetailsImpl;
+import com.es.iesmz.FitGoal.service.TeamService;
 import com.es.iesmz.FitGoal.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +46,39 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class TeamController {
+    @Autowired
+    TeamService teamService;
 
+    @Operation(summary = "Get all teams")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Team list",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Team.class)))
+            )})
+    @GetMapping("/team")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Set<Team>> getTeam(){
+        return new ResponseEntity<>(teamService.findAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get team by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Tag list",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Team.class)))
+            )})
+    @GetMapping("/team/id/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Optional<Team>> getTeamById(@PathVariable Long id){
+        return new ResponseEntity<>(teamService.findById(id), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get team by name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "find team by name",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Team.class)))
+            )})
+    @GetMapping("/team/name/{name}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Optional<Team>> getTeamByName(@PathVariable String name){
+        return new ResponseEntity<>(teamService.findByName(name), HttpStatus.OK);
+    }
 }

@@ -1,4 +1,4 @@
-package com.es.iesmz.transita3.Transita.Utils;
+package com.es.iesmz.FitGoal.Utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;

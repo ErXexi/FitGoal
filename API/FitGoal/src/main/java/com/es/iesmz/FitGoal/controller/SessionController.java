@@ -66,7 +66,7 @@ public class SessionController {
             )})
     @GetMapping("/session/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Set<Session>> getSessionById(@PathVariable Long id){
+    public ResponseEntity<Optional<Session>> getSessionById(@PathVariable Long id){
         return new ResponseEntity<>(sessionService.findById(id), HttpStatus.OK);
     }
     @Operation(summary = "Get session by creator id")
@@ -76,8 +76,10 @@ public class SessionController {
             )})
     @GetMapping("/session/creator-id/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Optional<Session>> getSessionByCreatorId(@PathVariable Long id){
+    public ResponseEntity<Set<Session>> getSessionByCreatorId(@PathVariable Long id){
         return new ResponseEntity<>(sessionService.findByCreatorId(id), HttpStatus.OK);
     }
+
+
 
 }

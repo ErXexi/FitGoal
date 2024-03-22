@@ -36,7 +36,7 @@ public class MatchController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
     @GetMapping("/match")
-    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getExercises(){
         return new ResponseEntity<>(matchService.findAll(), HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class MatchController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
     @GetMapping("/match")
-    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Optional<Match>> getMatchById(@PathVariable Long id){
         return new ResponseEntity<>(matchService.findById(id), HttpStatus.OK);
     }
@@ -58,7 +58,7 @@ public class MatchController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
     @GetMapping("/match/day/{day}")
-    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByDay(@PathVariable int day){
         return new ResponseEntity<>(matchService.findByDay(day), HttpStatus.OK);
     }
@@ -69,7 +69,7 @@ public class MatchController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
     @GetMapping("/match")
-    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByLocalId(@PathVariable int id){
         return new ResponseEntity<>(matchService.findByLocalTeamId(id), HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class MatchController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
     @GetMapping("/match")
-    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByVisitingId(@PathVariable int id){
         return new ResponseEntity<>(matchService.findByVisitingTeamId(id), HttpStatus.OK);
     }

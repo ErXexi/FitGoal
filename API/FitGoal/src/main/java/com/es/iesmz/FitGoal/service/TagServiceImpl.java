@@ -6,6 +6,7 @@ import com.es.iesmz.FitGoal.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -19,7 +20,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Set<Tag> findByName(String name) {
+    public Optional<Tag> findByName(String name) {
         return tagRepository.findByName(name);
     }
 }
