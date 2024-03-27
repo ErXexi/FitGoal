@@ -137,15 +137,10 @@ public class UserAuthController {
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new MessageResponse("Can't convert the object to JSON"));
         }
-
         return ResponseEntity.ok(userJson);
     }
 
-    @GetMapping("/patata")
-    public ResponseEntity<Void> test(){
-        System.out.println("patata");
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+
 
     /*
     @GetMapping("/forgot-password/{email}")

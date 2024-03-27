@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -59,7 +60,7 @@ public class ExerciseController {
             )})
     @GetMapping("/exercise/id/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Exercise> getExerciseById(@PathVariable Long id){
+    public ResponseEntity<Optional<Exercise>> getExerciseById(@PathVariable Long id){
         return new ResponseEntity<>(exerciseService.findById(id), HttpStatus.OK);
     }
 

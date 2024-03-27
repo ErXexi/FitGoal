@@ -16,7 +16,7 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
     Optional<Team> findById(Long id);
     Set<Team> findByCity(String city);
     Set<Team> findByProvince(String province);
-    Set<Team> findByName(String name);
+    Optional<Team> findByName(String name);
     @Query(value = "SELECT" + attributes + "FROM TEAM T INNER JOIN PLAYER P ON T.ID = P.TEAM_ID WHERE P.TEAM_ID = :id", nativeQuery = true)
     Team findByPlayer(@Param(value = "id")int id);
 

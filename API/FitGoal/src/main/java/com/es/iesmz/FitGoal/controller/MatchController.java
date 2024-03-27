@@ -1,8 +1,5 @@
 package com.es.iesmz.FitGoal.controller;
 
-
-
-import com.es.iesmz.FitGoal.domain.Exercise;
 import com.es.iesmz.FitGoal.domain.Match;
 import com.es.iesmz.FitGoal.service.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,20 +21,20 @@ import java.util.Set;
 
 //https://github.com/bezkoder/spring-boot-spring-security-jwt-authentication
 //http://localhost:8080/api/auth/signup?username=Pepe&email=pepe@gmail.com&password=1234&role=admin
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 public class MatchController {
     @Autowired
-    MatchService matchService;
+    private MatchService matchService;
 
     @Operation(summary = "Get all Matches")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Listado de puntos",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
-    @GetMapping("/match")
+    @GetMapping("/matches")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Set<Match>> getExercises(){
+    public ResponseEntity<Set<Match>> getMatches(){
         return new ResponseEntity<>(matchService.findAll(), HttpStatus.OK);
     }
 
@@ -46,7 +43,7 @@ public class MatchController {
             @ApiResponse(responseCode = "200", description = "Listado de puntos",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
-    @GetMapping("/match")
+    @GetMapping("/match/id/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Optional<Match>> getMatchById(@PathVariable Long id){
         return new ResponseEntity<>(matchService.findById(id), HttpStatus.OK);
@@ -57,29 +54,29 @@ public class MatchController {
             @ApiResponse(responseCode = "200", description = "Listado de puntos",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
-    @GetMapping("/match/day/{day}")
+    @GetMapping("/matches/day/{day}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByDay(@PathVariable int day){
         return new ResponseEntity<>(matchService.findByDay(day), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get match by id")
+    @Operation(summary = "Get match by local team id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Listado de puntos",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
-    @GetMapping("/match")
+    @GetMapping("/matches/local/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByLocalId(@PathVariable int id){
         return new ResponseEntity<>(matchService.findByLocalTeamId(id), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get match by id")
+    @Operation(summary = "Get match by visiting team id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Listado de puntos",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Match.class)))
             )})
-    @GetMapping("/match")
+    @GetMapping("/matches/visiting/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByVisitingId(@PathVariable int id){
         return new ResponseEntity<>(matchService.findByVisitingTeamId(id), HttpStatus.OK);

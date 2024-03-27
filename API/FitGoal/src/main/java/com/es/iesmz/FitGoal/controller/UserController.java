@@ -56,7 +56,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "User list",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))
             )})
-    @GetMapping("/team/id/{id}")
+    @GetMapping("/users/")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<User>> getUsers(){
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
@@ -67,7 +67,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Find user by email",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))
             )})
-    @GetMapping("/team/id/{id}")
+    @GetMapping("/user/{email}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<User> getUsersByEmail(@PathVariable String email){
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);

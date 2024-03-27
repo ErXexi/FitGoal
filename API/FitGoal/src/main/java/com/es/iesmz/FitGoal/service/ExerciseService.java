@@ -10,6 +10,6 @@ import java.util.Set;
 
 public interface ExerciseService {
     Set<Exercise> findAll();
-    Exercise findById(Long id);
+    Optional<Exercise> findById(Long id);
     Set<Exercise> findByTag(String tag);
 }

@@ -4,10 +4,11 @@ import com.es.iesmz.FitGoal.domain.Match;
 import com.es.iesmz.FitGoal.repository.MatchRepository;
 import com.es.iesmz.FitGoal.service.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
-
+@Service
 public class MatchServiceImpl implements MatchService {
     @Autowired
     private MatchRepository matchRepository;

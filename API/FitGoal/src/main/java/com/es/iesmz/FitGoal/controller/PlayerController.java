@@ -43,19 +43,19 @@ import java.util.stream.Collectors;
 
 //https://github.com/bezkoder/spring-boot-spring-security-jwt-authentication
 //http://localhost:8080/api/auth/signup?username=Pepe&email=pepe@gmail.com&password=1234&role=admin
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class PlayerController {
     @Autowired
     PlayerService playerService;
+
     @Operation(summary = "Get all Players")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Get all players",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/player")
+    @GetMapping("/players")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Set<Player>> getPlayer(){
+    public ResponseEntity<Set<Player>> getPlayers(){
         return new ResponseEntity<>(playerService.findAll(), HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Find player by name",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/player/name/{name}")
+    @GetMapping("/players/name/{name}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Player>> getPlayerByName(@PathVariable String name){
         return new ResponseEntity<>(playerService.findByName(name), HttpStatus.OK);
@@ -75,7 +75,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Find player by surname",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/player/surname/{surname}")
+    @GetMapping("/players/surname/{surname}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Player>> getPlayerBySurname(@PathVariable String surname){
         return new ResponseEntity<>(playerService.findBySurname(surname), HttpStatus.OK);
@@ -86,7 +86,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Find player by team",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/player/team/{id}")
+    @GetMapping("/players/team/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Player>> getPlayerByTeam(@PathVariable Long id){
         return new ResponseEntity<>(playerService.findByTeam(id), HttpStatus.OK);
@@ -97,11 +97,9 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Find player by id",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/player/team/{id}")
+    @GetMapping("/player/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Optional<Player>> getPlayerById(@PathVariable Long id){
         return new ResponseEntity<>(playerService.findById(id), HttpStatus.OK);
     }
-
-
 }
