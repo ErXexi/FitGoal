@@ -1,5 +1,6 @@
 package com.es.iesmz.FitGoal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -22,13 +23,13 @@ public class Tag {
     @Schema(description = "Tag's ID", example = "1", required = true)
     private Long id;
     @NotBlank
-    @Size(max = 5)
     @Column(name = "name")
-    @Schema(description = "Tag's name", example = "12:30", required = true)
+    @Schema(description = "Tag's name", example = "Warmup", required = true)
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "tags")
-    private Set<Exercise> exercises = new HashSet<>();
+    private Set<Exercice> exercices = new HashSet<>();
 
     public Tag(String name) {
         this.name = name;

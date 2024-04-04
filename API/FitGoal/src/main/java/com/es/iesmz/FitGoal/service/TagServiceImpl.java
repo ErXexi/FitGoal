@@ -23,4 +23,9 @@ public class TagServiceImpl implements TagService {
     public Optional<Tag> findByName(String name) {
         return tagRepository.findByName(name);
     }
+
+    @Override
+    public Set<Tag> findByExercice(int id) {
+        return  tagRepository.findByExercice(id);
+    }
 }

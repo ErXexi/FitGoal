@@ -71,4 +71,15 @@ public class TagController {
     public ResponseEntity<Optional<Tag>> getTagsByName(@PathVariable String name){
         return new ResponseEntity<>(tagService.findByName(name), HttpStatus.OK);
     }
+
+    @Operation(summary = "Get tags of one exercice")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Find tags of exercice",
+            content = @Content(array = @ArraySchema(schema = @Schema(implementation = Tag.class))))
+    })
+    @GetMapping("/tag/exercice/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Set<Tag>> getTagsByExercice(@PathVariable int id){
+        return new ResponseEntity<>(tagService.findByExercice(id), HttpStatus.OK);
+    }
 }

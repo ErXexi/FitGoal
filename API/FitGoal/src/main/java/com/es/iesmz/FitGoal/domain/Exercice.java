@@ -1,5 +1,6 @@
 package com.es.iesmz.FitGoal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -14,24 +15,24 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@Entity(name="Exercise")
-public class Exercise {
+@Entity(name="Exercice")
+public class Exercice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
-    @Schema(description = "Exercise's ID", example = "1", required = true)
+    @Schema(description = "Exercice's ID", example = "1", required = true)
     private Long id;
 
     @NotBlank
     @Size(max = 20)
     @Column(name = "name")
-    @Schema(description = "Exercise's name", example = "Running", required = true)
+    @Schema(description = "Exercice's name", example = "Running", required = true)
     private String name;
 
     @NotBlank
     @Size(max = 250)
     @Column(name = "description")
-    @Schema(description = "Exercise's description", example = """
+    @Schema(description = "Exercice's description", example = """
             This pose activates your glutes to lift your hips, which helps train your core while toning your butt and thighs.
                         
             Start on your back. Bend your knees and plant your feet on the floor at hip width. Place your hands at your sides, palms down.
@@ -44,18 +45,18 @@ public class Exercise {
 
     @NotBlank
     @Column(name = "video")
-    @Schema(description = "Exercise's video", example = "pathToVideo", required = true)
+    @Schema(description = "Exercice's video", example = "pathToVideo", required = true)
     private String video;
 
     @NotBlank
     @Column(name = "image")
-    @Schema(description = "Exercise's image", example = "pathToImage", required = true)
+    @Schema(description = "Exercice's image", example = "pathToImage", required = true)
     private String image;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinTable(
-            name = "Exercise_Tag",
-            joinColumns = @JoinColumn(name = "id_Exercise"),
+            name = "Exercice_Tag",
+            joinColumns = @JoinColumn(name = "id_Exercice"),
             inverseJoinColumns = @JoinColumn(name = "id_Tag")
     )
     private Set<Tag> tags = new HashSet<>();
