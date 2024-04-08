@@ -61,7 +61,4 @@ public class ExerciceController {
         return new ResponseEntity<>(exerciceService.findByTag(tag), HttpStatus.OK);
     }
 
-
-
-
 }

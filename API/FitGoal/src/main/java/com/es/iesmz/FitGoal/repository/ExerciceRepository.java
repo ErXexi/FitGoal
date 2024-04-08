@@ -13,8 +13,9 @@ public interface ExerciceRepository extends CrudRepository<Exercice, Long> {
     String attributes = " E.ID, E.DESCRIPTION, E.IMAGE, E.NAME, E.VIDEO ";
     Set<Exercice> findAll();
     Optional<Exercice> findById(Long id);
-    @Query(value = "SELECT" + attributes + "FROM EXERCICE E WHERE E.ID = " +
-            "(SELECT ET.ID_EXERCICE FROM EXERCISE_TAG ET WHERE ET.ID_TAG = " +
-            "(SELECT T.ID FROM TAG T WHERE T.NAME = :tag ))", nativeQuery = true)
+    @Query(value = "SELECT" + attributes + "FROM EXERCICE E " +
+            "JOIN EXERCICE_TAG ET ON E.ID = ET.ID_EXERCICE " +
+            "JOIN TAG T ON ET.ID_TAG = T.ID " +
+            "WHERE T.NAME = :tag", nativeQuery = true)
     Set<Exercice> findByTag(@Param("tag") String tag);
 }
