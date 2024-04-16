@@ -18,4 +18,11 @@ public interface ExerciceRepository extends CrudRepository<Exercice, Long> {
             "JOIN TAG T ON ET.ID_TAG = T.ID " +
             "WHERE T.NAME = :tag", nativeQuery = true)
     Set<Exercice> findByTag(@Param("tag") String tag);
+
+    @Query(value = "SELECT" + attributes + "FROM EXERCICE E " +
+            "JOIN SESSION_EXERCICE SE ON E.ID = SE.ID_EXERCICE " +
+            "JOIN SESSION S ON SE.ID_SESSION = S.ID " +
+            "WHERE S.ID = :sessionId", nativeQuery = true)
+    Set<Exercice> findBySession(@Param("sessionId") Long id);
+
 }

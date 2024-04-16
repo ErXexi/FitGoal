@@ -46,4 +46,12 @@ public class Session {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private User creator;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @JoinTable(
+            name = "Session_exercice",
+            joinColumns = @JoinColumn(name = "id_Exercice"),
+            inverseJoinColumns = @JoinColumn(name = "id_Session")
+    )
+    private Set<Session> sessions = new HashSet<>();
 }

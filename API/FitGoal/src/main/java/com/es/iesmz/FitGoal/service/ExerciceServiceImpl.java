@@ -26,4 +26,9 @@ public class ExerciceServiceImpl implements ExerciceService {
     public Set<Exercice> findByTag(String tag) {
         return exerciceRepository.findByTag(tag);
     }
+
+    @Override
+    public Set<Exercice> findBySession(Long id) {
+        return exerciceRepository.findBySession(id);
+    }
 }

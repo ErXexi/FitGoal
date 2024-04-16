@@ -9,4 +9,5 @@ public interface ExerciceService {
     Set<Exercice> findAll();
     Optional<Exercice> findById(Long id);
     Set<Exercice> findByTag(String tag);
+    Set<Exercice> findBySession(Long id);
 }
