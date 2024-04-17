@@ -9,4 +9,7 @@ public interface StaffService {
     Set<Staff> findAll();
     Optional<Staff> findById(Long id);
     Optional<Staff> findByRole(String role);
+    Staff addStaff(Staff staff);
+    Staff modifyStaff(Long id, Staff newStaff);
+    void deleteStaff(Long id);
 }

@@ -81,4 +81,34 @@ public class TeamController {
     public ResponseEntity<Optional<Team>> getTeamByName(@PathVariable String name){
         return new ResponseEntity<>(teamService.findByName(name), HttpStatus.OK);
     }
+    @Operation(summary = "Add new Team")
+    @PostMapping("/team")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Team> addTeam(@RequestBody Team team){
+        return new ResponseEntity<>(teamService.addTeam(team), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Modify Team")
+    @PutMapping("/team/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Team> modifyTeam(@PathVariable Long id,@RequestBody Team team){
+        Optional<Team> t = teamService.findById(id);
+        if(t.isPresent()){
+            Team newTeam = teamService.modifyTeam(id, team);
+            return new ResponseEntity<>(newTeam, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete Team")
+    @DeleteMapping("/team/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deleteTeam(@PathVariable Long id){
+        Optional<Team> t = teamService.findById(id);
+        if(t.isPresent()){
+            teamService.deleteTeam(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

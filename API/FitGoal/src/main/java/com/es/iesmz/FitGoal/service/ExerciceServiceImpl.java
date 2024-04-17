@@ -31,4 +31,22 @@ public class ExerciceServiceImpl implements ExerciceService {
     public Set<Exercice> findBySession(Long id) {
         return exerciceRepository.findBySession(id);
     }
+
+    @Override
+    public Exercice addExercice(Exercice exercice) {
+        return exerciceRepository.save(exercice);
+    }
+
+    @Override
+    public Exercice modifyExercice(Long id, Exercice newExercice) {
+        Exercice ex = exerciceRepository.findById(id).orElseThrow();
+        newExercice.setId(id);
+        return exerciceRepository.save(newExercice);
+    }
+
+    @Override
+    public void deleteExercice(Long id) {
+        Exercice ex = exerciceRepository.findById(id).orElseThrow();
+        exerciceRepository.deleteById(id);
+    }
 }

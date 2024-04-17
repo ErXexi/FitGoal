@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,5 +54,5 @@ public class Session {
             joinColumns = @JoinColumn(name = "id_Exercice"),
             inverseJoinColumns = @JoinColumn(name = "id_Session")
     )
-    private Set<Session> sessions = new HashSet<>();
+    private List<Exercice> exercices = new ArrayList<>();
 }

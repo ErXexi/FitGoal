@@ -1,6 +1,6 @@
 package com.es.iesmz.FitGoal.domain;
 
-public enum StaffRole {
+public enum EStaffRole {
     COACH,
     SECOND_COACH,
     DELEGATE,

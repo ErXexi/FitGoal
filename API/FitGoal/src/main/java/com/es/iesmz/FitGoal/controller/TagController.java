@@ -82,4 +82,34 @@ public class TagController {
     public ResponseEntity<Set<Tag>> getTagsByExercice(@PathVariable int id){
         return new ResponseEntity<>(tagService.findByExercice(id), HttpStatus.OK);
     }
+    @Operation(summary = "Add new Tag")
+    @PostMapping("/tag")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Tag> addTag(@RequestBody Tag tag){
+        return new ResponseEntity<>(tagService.addTag(tag), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Modify tag")
+    @PutMapping("/tag/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Tag> modifyTag(@PathVariable Long id,@RequestBody Tag tag){
+        Optional<Tag> t = tagService.findById(id);
+        if(t.isPresent()){
+            Tag newTag = tagService.modifyTag(id, tag);
+            return new ResponseEntity<>(newTag, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete tag")
+    @DeleteMapping("/tag/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deleteTag(@PathVariable Long id){
+        Optional<Tag> t = tagService.findById(id);
+        if(t.isPresent()){
+            tagService.deleteTag(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

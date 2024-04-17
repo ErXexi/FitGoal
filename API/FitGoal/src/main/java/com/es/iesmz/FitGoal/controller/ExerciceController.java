@@ -72,4 +72,37 @@ public class ExerciceController {
         return new ResponseEntity<>(exerciceService.findBySession(id), HttpStatus.OK);
     }
 
+    @Operation(summary = "Add new Exercice")
+    @PostMapping("/exercice")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Exercice> addExercice(@RequestBody Exercice exercice){
+        Exercice e = exerciceService.addExercice(exercice);
+        return new ResponseEntity<>(e, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Modify Exercice")
+    @PutMapping("/exercice/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Exercice> modifyExercice(@PathVariable Long id,@RequestBody Exercice exercice){
+        Optional<Exercice> ex = exerciceService.findById(id);
+        if(ex.isPresent()){
+            Exercice newEx = exerciceService.modifyExercice(id, exercice);
+            return new ResponseEntity<>(newEx, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete exercice")
+    @DeleteMapping("/exercice/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deleteExercice(@PathVariable Long id){
+        Optional<Exercice> ex = exerciceService.findById(id);
+        if(ex.isPresent()){
+            exerciceService.deleteExercice(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
 }

@@ -10,4 +10,7 @@ public interface ExerciceService {
     Optional<Exercice> findById(Long id);
     Set<Exercice> findByTag(String tag);
     Set<Exercice> findBySession(Long id);
+    Exercice addExercice(Exercice exercice);
+    Exercice modifyExercice(Long id, Exercice newExercice);
+    void deleteExercice(Long id);
 }

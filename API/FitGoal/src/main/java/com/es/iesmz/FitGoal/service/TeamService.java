@@ -14,4 +14,7 @@ public interface TeamService {
     Set<Team> findByProvince(String province);
     Optional<Team> findByName(String name);
     Team findByPlayer(int id);
+    Team addTeam(Team team);
+    Team modifyTeam(Long id, Team newTeam);
+    void deleteTeam(Long id);
 }

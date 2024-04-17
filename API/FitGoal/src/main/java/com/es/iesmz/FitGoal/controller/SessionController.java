@@ -80,6 +80,37 @@ public class SessionController {
         return new ResponseEntity<>(sessionService.findByCreatorId(id), HttpStatus.OK);
     }
 
+    @Operation(summary = "Add new Session")
+    @PostMapping("/session")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Session> addSession(@RequestBody Session session){
+        return new ResponseEntity<>(sessionService.addSession(session), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Modify Session")
+    @PutMapping("/session/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Session> modifySession(@PathVariable Long id,@RequestBody Session session){
+        Optional<Session> s = sessionService.findById(id);
+        if(s.isPresent()){
+            Session newSession = sessionService.modifySession(id, session);
+            return new ResponseEntity<>(newSession, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete Session")
+    @DeleteMapping("/session/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deleteSession(@PathVariable Long id){
+        Optional<Session> s = sessionService.findById(id);
+        if(s.isPresent()){
+            sessionService.deleteSession(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
 
 }

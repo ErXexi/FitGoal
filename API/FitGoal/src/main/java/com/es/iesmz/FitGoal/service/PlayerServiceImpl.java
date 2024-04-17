@@ -37,4 +37,22 @@ public class PlayerServiceImpl implements PlayerService {
     public Set<Player> findByTeam(Long id) {
         return playerRepository.findByTeam(id);
     }
+
+    @Override
+    public Player addPlayer(Player player) {
+        return playerRepository.save(player);
+    }
+
+    @Override
+    public Player modifyPlayer(Long id, Player newPlayer) {
+        Player player = playerRepository.findById(id).orElseThrow();
+        newPlayer.setId(id);
+        return playerRepository.save(newPlayer);
+    }
+
+    @Override
+    public void deletePlayer(Long id) {
+        Player player = playerRepository.findById(id).orElseThrow();
+        playerRepository.deleteById(id);
+    }
 }

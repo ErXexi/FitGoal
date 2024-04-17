@@ -11,4 +11,7 @@ public interface MatchService {
     Set<Match> findByDay(int day);
     Set<Match> findByLocalTeamId(int id);
     Set<Match> findByVisitingTeamId(int id);
+    Match addMatch(Match match);
+    Match modifyMatch(Long id, Match newMatch);
+    void deleteMatch(Long id);
 }

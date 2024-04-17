@@ -12,4 +12,7 @@ public interface PlayerService {
     Set<Player> findByName(String name);
     Set<Player> findBySurname(String surname);
     Set<Player> findByTeam(@Param("id") Long id);
+    Player addPlayer(Player player);
+    Player modifyPlayer(Long id, Player newPlayer);
+    void deletePlayer(Long id);
 }

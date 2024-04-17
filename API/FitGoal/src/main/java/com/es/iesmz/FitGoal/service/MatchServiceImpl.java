@@ -36,4 +36,22 @@ public class MatchServiceImpl implements MatchService {
     public Set<Match> findByVisitingTeamId(int id) {
         return matchRepository.findByVisitingTeamId(id);
     }
+
+    @Override
+    public Match addMatch(Match match) {
+        return matchRepository.save(match);
+    }
+
+    @Override
+    public Match modifyMatch(Long id, Match newMatch) {
+        Match match = matchRepository.findById(id).orElseThrow();
+        newMatch.setId(id);
+        return matchRepository.save(newMatch);
+    }
+
+    @Override
+    public void deleteMatch(Long id) {
+        Match match = matchRepository.findById(id).orElseThrow();
+        matchRepository.deleteById(id);
+    }
 }

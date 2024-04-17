@@ -25,7 +25,30 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public Optional<Tag> findById(Long id) {
+        return tagRepository.findById(id);
+    }
+
+    @Override
     public Set<Tag> findByExercice(int id) {
         return  tagRepository.findByExercice(id);
+    }
+
+    @Override
+    public Tag addTag(Tag tag) {
+        return tagRepository.save(tag);
+    }
+
+    @Override
+    public Tag modifyTag(Long id, Tag newTag) {
+        Tag tag = tagRepository.findById(id).orElseThrow();
+        newTag.setId(id);
+        return tagRepository.save(newTag);
+    }
+
+    @Override
+    public void deleteTag(Long id) {
+        Tag tag = tagRepository.findById(id).orElseThrow();
+        tagRepository.deleteById(id);
     }
 }

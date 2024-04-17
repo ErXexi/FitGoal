@@ -61,4 +61,5 @@ public class Exercice {
     )
     private Set<Tag> tags = new HashSet<>();
 
+
 }

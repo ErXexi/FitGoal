@@ -28,4 +28,22 @@ public class StaffServiceImpl implements StaffService {
     public Optional<Staff> findByRole(String role) {
         return findByRole(role);
     }
+
+    @Override
+    public Staff addStaff(Staff staff) {
+        return staffRepository.save(staff);
+    }
+
+    @Override
+    public Staff modifyStaff(Long id, Staff newStaff) {
+        Staff staff = staffRepository.findById(id).orElseThrow();
+        newStaff.setId(id);
+        return staffRepository.save(newStaff);
+    }
+
+    @Override
+    public void deleteStaff(Long id) {
+        Staff staff = staffRepository.findById(id).orElseThrow();
+        staffRepository.deleteById(id);
+    }
 }

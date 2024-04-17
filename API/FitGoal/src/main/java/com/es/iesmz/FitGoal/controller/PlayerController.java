@@ -102,4 +102,36 @@ public class PlayerController {
     public ResponseEntity<Optional<Player>> getPlayerById(@PathVariable Long id){
         return new ResponseEntity<>(playerService.findById(id), HttpStatus.OK);
     }
+
+    @Operation(summary = "Add new Player")
+    @PostMapping("/player")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Player> addPlayer(@RequestBody Player player){
+        Player p = playerService.addPlayer(player);
+        return new ResponseEntity<>(p, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Modify Player")
+    @PutMapping("/player/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Player> modifyPlayer(@PathVariable Long id,@RequestBody Player player){
+        Optional<Player> p = playerService.findById(id);
+        if(p.isPresent()){
+            Player newPlayer = playerService.modifyPlayer(id, player);
+            return new ResponseEntity<>(newPlayer, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete Player")
+    @DeleteMapping("/player/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deletePlayer(@PathVariable Long id){
+        Optional<Player> p = playerService.findById(id);
+        if(p.isPresent()){
+            playerService.deletePlayer(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }

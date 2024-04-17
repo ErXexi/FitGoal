@@ -1,5 +1,6 @@
 package com.es.iesmz.FitGoal.controller;
 
+import com.es.iesmz.FitGoal.domain.Exercice;
 import com.es.iesmz.FitGoal.domain.Match;
 import com.es.iesmz.FitGoal.service.MatchService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,5 +81,37 @@ public class MatchController {
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByVisitingId(@PathVariable int id){
         return new ResponseEntity<>(matchService.findByVisitingTeamId(id), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Add new Match")
+    @PostMapping("/match")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Match> addMatch(@RequestBody Match match){
+        Match m = matchService.addMatch(match);
+        return new ResponseEntity<>(m, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Modify Match")
+    @PutMapping("/match/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Match> modifyMatch(@PathVariable Long id,@RequestBody Match match){
+        Optional<Match> m = matchService.findById(id);
+        if(m.isPresent()){
+            Match newMatch = matchService.modifyMatch(id, match);
+            return new ResponseEntity<>(newMatch, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete match")
+    @DeleteMapping("/match/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deleteMatch(@PathVariable Long id){
+        Optional<Match> m = matchService.findById(id);
+        if(m.isPresent()){
+            matchService.deleteMatch(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
