@@ -52,6 +52,7 @@ public class Team {
 
 
         @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+        @JsonIgnore
         private List<Player> players;
 
 

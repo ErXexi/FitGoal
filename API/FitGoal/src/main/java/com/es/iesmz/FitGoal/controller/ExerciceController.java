@@ -66,7 +66,7 @@ public class ExerciceController {
             @ApiResponse(responseCode = "200", description = "find exercices by session id",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Exercice.class)))
             )})
-    @GetMapping("/exercice/session/{sessionId}")
+    @GetMapping("/exercice/session/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Exercice>> getExerciceBySession(@PathVariable Long id){
         return new ResponseEntity<>(exerciceService.findBySession(id), HttpStatus.OK);

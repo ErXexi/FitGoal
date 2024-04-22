@@ -38,8 +38,7 @@ gradle/wrapper/gradle-wrapper.properties
 *.jar
 *.war
 
-# XML files
-*.xml
+
 
 # IDE-specific files
 *.iml

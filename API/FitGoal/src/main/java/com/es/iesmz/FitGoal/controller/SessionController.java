@@ -81,10 +81,29 @@ public class SessionController {
     }
 
     @Operation(summary = "Add new Session")
+    @PostMapping("/session/{userId}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Session> addSession(@RequestBody Session session, @PathVariable Long userId){
+        try{
+            Session newSession = sessionService.addSession(session, userId);
+            return new ResponseEntity<>(newSession, HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Operation(summary = "Add exercice to session")
     @PostMapping("/session")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Session> addSession(@RequestBody Session session){
-        return new ResponseEntity<>(sessionService.addSession(session), HttpStatus.OK);
+    public ResponseEntity<Session> addSession(
+            @RequestParam(name = "sessionId")Long sessionId,
+            @RequestParam(name = "exerciceId")Long exerciceId
+            ){
+        try{
+            Session newSession = sessionService.addExerciceToSession(exerciceId, sessionId);
+            return new ResponseEntity<>(newSession, HttpStatus.OK);
+        }catch (Exception e){
+            return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Operation(summary = "Modify Session")

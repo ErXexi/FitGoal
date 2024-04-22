@@ -1,5 +1,6 @@
 package com.es.iesmz.FitGoal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -39,6 +40,7 @@ public class Staff {
 
     @ManyToOne
     @JoinColumn(name = "team_id")
+    @JsonIgnore
     private Team team;
 
     public Staff(String name, String surname, String role, Team team) {

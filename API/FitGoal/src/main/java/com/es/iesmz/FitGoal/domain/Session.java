@@ -1,5 +1,7 @@
 package com.es.iesmz.FitGoal.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -18,6 +20,7 @@ import java.util.Set;
 @Setter
 @ToString
 @Entity(name = "session")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +49,7 @@ public class Session {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
+    @JsonIgnore
     private User creator;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})

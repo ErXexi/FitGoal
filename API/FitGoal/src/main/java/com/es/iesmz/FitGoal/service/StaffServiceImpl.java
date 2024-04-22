@@ -1,7 +1,12 @@
 package com.es.iesmz.FitGoal.service;
 
+import com.es.iesmz.FitGoal.DTO.User.DTOUserStaff;
 import com.es.iesmz.FitGoal.domain.Staff;
+import com.es.iesmz.FitGoal.domain.Team;
+import com.es.iesmz.FitGoal.domain.User;
 import com.es.iesmz.FitGoal.repository.StaffRepository;
+import com.es.iesmz.FitGoal.repository.TeamRepository;
+import com.es.iesmz.FitGoal.repository.UserRepository;
 import com.es.iesmz.FitGoal.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,10 @@ import java.util.Set;
 public class StaffServiceImpl implements StaffService {
     @Autowired
     private StaffRepository staffRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private TeamRepository teamRepository;
 
     @Override
     public Set<Staff> findAll() {
@@ -30,8 +39,22 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Staff addStaff(Staff staff) {
-        return staffRepository.save(staff);
+    public Staff addStaff(DTOUserStaff data) {
+        Optional<Team> optionalTeam = teamRepository.findById(data.getTeamId());
+        Optional<User> optionalUser = userRepository.findById(data.getUserId());
+        String role = data.getRole();
+
+
+        if(optionalTeam.isPresent() && optionalUser.isPresent()){
+            Team team = optionalTeam.get();
+            User user = optionalUser.get();
+
+            Staff newStaff = new Staff(user.getName(), user.getSurname(), role, team);
+            user.setTeam(team);
+            return staffRepository.save(newStaff);
+        }else{
+            throw new RuntimeException("Invalid data");
+        }
     }
 
     @Override

@@ -9,7 +9,8 @@ public interface SessionService {
     Set<Session> findAll();
     Optional<Session> findById(Long id);
     Set<Session> findByCreatorId(Long id);
-    Session addSession(Session session);
+    Session addSession(Session session, Long userId);
+    Session addExerciceToSession(Long exerciceId, Long sessionId);
     Session modifySession(Long id, Session newSession);
     void deleteSession(Long id);
 }

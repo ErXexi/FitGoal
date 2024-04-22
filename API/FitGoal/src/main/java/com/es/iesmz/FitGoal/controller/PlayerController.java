@@ -56,7 +56,9 @@ public class PlayerController {
     @GetMapping("/players")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Player>> getPlayers(){
-        return new ResponseEntity<>(playerService.findAll(), HttpStatus.OK);
+        Set<Player> players = null;
+        players = playerService.findAll();
+        return new ResponseEntity<>(players, HttpStatus.OK);
     }
 
     @Operation(summary = "Find player by name")
@@ -75,7 +77,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Find player by surname",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/players/surname/{surname}")
+    @GetMapping("/player/surname/{surname}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Player>> getPlayerBySurname(@PathVariable String surname){
         return new ResponseEntity<>(playerService.findBySurname(surname), HttpStatus.OK);
@@ -86,7 +88,7 @@ public class PlayerController {
             @ApiResponse(responseCode = "200", description = "Find player by team",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
-    @GetMapping("/players/team/{id}")
+    @GetMapping("/player/team/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Player>> getPlayerByTeam(@PathVariable Long id){
         return new ResponseEntity<>(playerService.findByTeam(id), HttpStatus.OK);
