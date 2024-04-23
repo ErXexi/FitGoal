@@ -1,7 +1,9 @@
 package com.es.iesmz.FitGoal.service;
 
+import com.es.iesmz.FitGoal.DTO.Session.*;
 import com.es.iesmz.FitGoal.domain.Session;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -9,8 +11,10 @@ public interface SessionService {
     Set<Session> findAll();
     Optional<Session> findById(Long id);
     Set<Session> findByCreatorId(Long id);
-    Session addSession(Session session, Long userId);
-    Session addExerciceToSession(Long exerciceId, Long sessionId);
-    Session modifySession(Long id, Session newSession);
-    void deleteSession(Long id);
+    DtoSessionResponse addSession(DtoSession data, Long userId);
+    DtoSessionResponse addExerciceToSession(DtoSessionAddExercice session);
+
+    DtoSessionResponse modifySession(Long id, DtoSession data);
+
+    DtoSessionResponse deleteSession(Long id);
 }
