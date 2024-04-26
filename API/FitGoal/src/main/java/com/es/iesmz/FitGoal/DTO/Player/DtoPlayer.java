@@ -1,4 +1,4 @@
-package com.es.iesmz.FitGoal.DTO.User;
+package com.es.iesmz.FitGoal.DTO.Player;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class DTOUserStaff {
-    private Long userId;
-    private Long teamId;
-    private String role;
-
+public class DtoPlayer {
+    public String Name;
+    public String Surname;
+    public String Position;
 }

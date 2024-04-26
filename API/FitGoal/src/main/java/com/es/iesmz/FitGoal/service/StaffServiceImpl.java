@@ -1,13 +1,12 @@
 package com.es.iesmz.FitGoal.service;
 
-import com.es.iesmz.FitGoal.DTO.User.DTOUserStaff;
+import com.es.iesmz.FitGoal.DTO.User.DtoUserStaff;
 import com.es.iesmz.FitGoal.domain.Staff;
 import com.es.iesmz.FitGoal.domain.Team;
 import com.es.iesmz.FitGoal.domain.User;
 import com.es.iesmz.FitGoal.repository.StaffRepository;
 import com.es.iesmz.FitGoal.repository.TeamRepository;
 import com.es.iesmz.FitGoal.repository.UserRepository;
-import com.es.iesmz.FitGoal.service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +38,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Staff addStaff(DTOUserStaff data) {
+    public Staff addStaff(DtoUserStaff data) {
         Optional<Team> optionalTeam = teamRepository.findById(data.getTeamId());
         Optional<User> optionalUser = userRepository.findById(data.getUserId());
         String role = data.getRole();

@@ -41,13 +41,20 @@ public class Match {
     @Schema(description = "Match's time", example = "12:30", required = true)
     private String time;
 
-    @NotBlank
     @Size(max = 5)
     @Column(name = "result")
-    @Schema(description = "Match's result", example = "3-3", required = true)
+    @Schema(description = "Match's result", example = "3-3")
     private String result;
 
     @Column(name = "day")
     @Schema(description = "Match's day", example = "1", required = true)
     private int day;
+
+    @Column(name = "isEnded")
+    @Schema(description = "Status of the match", example = "0", required = true)
+    private boolean isEnded;
+
+    public void setResult(int LocalGoals, int VisitingGoals){
+        result = LocalGoals + "-" + VisitingGoals;
+    }
 }

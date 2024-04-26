@@ -2,7 +2,7 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
-import com.es.iesmz.FitGoal.DTO.User.DTOUserStaff;
+import com.es.iesmz.FitGoal.DTO.User.DtoUserStaff;
 import com.es.iesmz.FitGoal.domain.*;
 import com.es.iesmz.FitGoal.service.StaffService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -64,7 +64,7 @@ public class StaffController {
     @Operation(summary = "Add new Staff member")
     @PostMapping("/staff")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Staff> addStaff(@RequestBody DTOUserStaff data){
+    public ResponseEntity<Staff> addStaff(@RequestBody DtoUserStaff data){
         return new ResponseEntity<>(staffService.addStaff(data), HttpStatus.OK);
     }
 

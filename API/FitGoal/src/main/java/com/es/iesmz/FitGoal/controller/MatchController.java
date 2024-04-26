@@ -58,6 +58,7 @@ public class MatchController {
     @GetMapping("/matches/day/{day}")
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Set<Match>> getMatchByDay(@PathVariable int day){
+        Match match = new Match();
         return new ResponseEntity<>(matchService.findByDay(day), HttpStatus.OK);
     }
 

@@ -1,5 +1,6 @@
 package com.es.iesmz.FitGoal.service;
 
+import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSession;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionResponse;
@@ -47,8 +48,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public DtoSessionResponse addSession(DtoSession data, Long userId) {
-        DtoSessionResponse response = new DtoSessionResponse();
+    public DtoResponse addSession(DtoSession data, Long userId) {
+        DtoResponse response = new DtoResponse();
         response.setSuccess(false);
         Optional<User> user = userService.findById(userId);
         if(user.isEmpty()){
@@ -66,8 +67,8 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     @Transactional
-    public DtoSessionResponse addExerciceToSession(DtoSessionAddExercice data) {
-        DtoSessionResponse response = new DtoSessionResponse();
+    public DtoResponse addExerciceToSession(DtoSessionAddExercice data) {
+        DtoResponse response = new DtoResponse();
         response.setSuccess(false);
 
         Optional<Session> optionalSession = sessionRepository.findById(data.getSessionId());
@@ -97,10 +98,28 @@ public class SessionServiceImpl implements SessionService {
         return response;
     }
 
+    @Override
+    public DtoResponse removeExerciceToSession(Long sessionId, int index) {
+        DtoResponse response = new DtoResponse();
+        response.setSuccess(false);
+        Optional<Session> optionalSession = sessionRepository.findById(sessionId);
+        if (optionalSession.isEmpty()) {
+            response.setMessage("Session not found");
+            return response;
+        }
+        Session session = optionalSession.get();
+        session.getExercices().remove(index);
+        sessionRepository.save(session);
+        response.setMessage("Exercice removed from session");
+        response.setSuccess(true);
+
+        return response;
+    }
+
 
     @Override
-    public DtoSessionResponse modifySession(Long id, DtoSession data) {
-        DtoSessionResponse response = new DtoSessionResponse();
+    public DtoResponse modifySession(Long id, DtoSession data) {
+        DtoResponse response = new DtoResponse();
         response.setSuccess(false);
 
         Optional<Session> optionalSession = sessionRepository.findById(id);
@@ -119,8 +138,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public DtoSessionResponse deleteSession(Long id) {
-        DtoSessionResponse response = new DtoSessionResponse();
+    public DtoResponse deleteSession(Long id) {
+        DtoResponse response = new DtoResponse();
         response.setSuccess(false);
         if(sessionRepository.findById(id).isEmpty()){
             response.setMessage("Session not found");

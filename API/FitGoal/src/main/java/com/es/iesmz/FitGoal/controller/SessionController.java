@@ -2,8 +2,10 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
+import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSession;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
+import com.es.iesmz.FitGoal.DTO.Session.DtoSessionRemove;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionResponse;
 import com.es.iesmz.FitGoal.domain.*;
 import com.es.iesmz.FitGoal.service.ExerciceService;
@@ -69,16 +71,28 @@ public class SessionController {
     @Operation(summary = "Add new Session")
     @PostMapping("/session/{userId}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<DtoSessionResponse> addSession(@RequestBody DtoSession data, @PathVariable Long userId){
-        DtoSessionResponse response = sessionService.addSession(data, userId);
+    public ResponseEntity<DtoResponse> addSession(@RequestBody DtoSession data, @PathVariable Long userId){
+        DtoResponse response = sessionService.addSession(data, userId);
         HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(response, status);
     }
     @Operation(summary = "Add exercice to session")
-    @PostMapping("/session")
+    @PostMapping("/session/exercice/add")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<DtoSessionResponse> addExerciceToSession(@RequestBody DtoSessionAddExercice data) {
-        DtoSessionResponse response = sessionService.addExerciceToSession(data);
+    public ResponseEntity<DtoResponse> addExerciceToSession(@RequestBody DtoSessionAddExercice data) {
+        DtoResponse response = sessionService.addExerciceToSession(data);
+        HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        return new ResponseEntity<>(response, status);
+    }
+
+    @Operation(summary = "Remove exercice to session")
+    @PostMapping("/session/exercice/remove/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<DtoResponse> RemoveExerciceToSession(
+            @RequestBody DtoSessionRemove data,
+            @PathVariable int exerciceIndex
+    ) {
+        DtoResponse response = sessionService.removeExerciceToSession(data.SessionId, exerciceIndex);
         HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(response, status);
     }
@@ -86,8 +100,8 @@ public class SessionController {
     @Operation(summary = "Modify Session")
     @PutMapping("/session/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<DtoSessionResponse> modifySession(@PathVariable Long id,@RequestBody DtoSession data){
-        DtoSessionResponse response = sessionService.modifySession(id, data);
+    public ResponseEntity<DtoResponse> modifySession(@PathVariable Long id,@RequestBody DtoSession data){
+        DtoResponse response = sessionService.modifySession(id, data);
         HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(response, status);
     }
@@ -95,8 +109,8 @@ public class SessionController {
     @Operation(summary = "Delete Session")
     @DeleteMapping("/session/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<DtoSessionResponse> deleteSession(@PathVariable Long id){
-        DtoSessionResponse response = sessionService.deleteSession(id);
+    public ResponseEntity<DtoResponse> deleteSession(@PathVariable Long id){
+        DtoResponse response = sessionService.deleteSession(id);
         HttpStatus status = response.isSuccess() ? HttpStatus.OK : HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(response, status);
     }

@@ -1,5 +1,6 @@
 package com.es.iesmz.FitGoal.service;
 
+import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.*;
 import com.es.iesmz.FitGoal.domain.Session;
 
@@ -11,10 +12,10 @@ public interface SessionService {
     Set<Session> findAll();
     Optional<Session> findById(Long id);
     Set<Session> findByCreatorId(Long id);
-    DtoSessionResponse addSession(DtoSession data, Long userId);
-    DtoSessionResponse addExerciceToSession(DtoSessionAddExercice session);
+    DtoResponse addSession(DtoSession data, Long userId);
+    DtoResponse addExerciceToSession(DtoSessionAddExercice data);
+    DtoResponse removeExerciceToSession(Long sessionId, int index);
+    DtoResponse modifySession(Long id, DtoSession data);
 
-    DtoSessionResponse modifySession(Long id, DtoSession data);
-
-    DtoSessionResponse deleteSession(Long id);
+    DtoResponse deleteSession(Long id);
 }

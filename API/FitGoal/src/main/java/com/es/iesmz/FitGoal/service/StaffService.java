@@ -1,6 +1,6 @@
 package com.es.iesmz.FitGoal.service;
 
-import com.es.iesmz.FitGoal.DTO.User.DTOUserStaff;
+import com.es.iesmz.FitGoal.DTO.User.DtoUserStaff;
 import com.es.iesmz.FitGoal.domain.Staff;
 
 import java.util.Optional;
@@ -10,7 +10,7 @@ public interface StaffService {
     Set<Staff> findAll();
     Optional<Staff> findById(Long id);
     Optional<Staff> findByRole(String role);
-    Staff addStaff(DTOUserStaff data);
+    Staff addStaff(DtoUserStaff data);
     Staff modifyStaff(Long id, Staff newStaff);
     void deleteStaff(Long id);
 }
