@@ -68,6 +68,8 @@ public class SessionController {
         return new ResponseEntity<>(sessionService.findByCreatorId(id), HttpStatus.OK);
     }
 
+
+
     @Operation(summary = "Add new Session")
     @PostMapping("/session/{userId}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
@@ -86,7 +88,7 @@ public class SessionController {
     }
 
     @Operation(summary = "Remove exercice to session")
-    @PostMapping("/session/exercice/remove/{id}")
+    @PostMapping("/session/exercice/remove/{exerciceIndex}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<DtoResponse> RemoveExerciceToSession(
             @RequestBody DtoSessionRemove data,

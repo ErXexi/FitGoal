@@ -52,11 +52,4 @@ public class Session {
     @JsonIgnore
     private User creator;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
-    @JoinTable(
-            name = "Session_exercice",
-            joinColumns = @JoinColumn(name = "id_Exercice"),
-            inverseJoinColumns = @JoinColumn(name = "id_Session")
-    )
-    private List<Exercice> exercices = new ArrayList<>();
 }

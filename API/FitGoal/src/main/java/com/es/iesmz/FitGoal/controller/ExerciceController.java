@@ -2,6 +2,7 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
+import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.domain.Exercice;
 import com.es.iesmz.FitGoal.service.ExerciceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -68,7 +70,7 @@ public class ExerciceController {
             )})
     @GetMapping("/exercice/session/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Set<Exercice>> getExerciceBySession(@PathVariable Long id){
+    public ResponseEntity<List<Exercice>> getExerciceBySession(@PathVariable Long id){
         return new ResponseEntity<>(exerciceService.findBySession(id), HttpStatus.OK);
     }
 
@@ -78,6 +80,14 @@ public class ExerciceController {
     public ResponseEntity<Exercice> addExercice(@RequestBody Exercice exercice){
         Exercice e = exerciceService.addExercice(exercice);
         return new ResponseEntity<>(e, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Add Exercice into session")
+    @PostMapping("/exercice/session")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> addExerciceIntoSession(@RequestBody DtoSessionAddExercice data){
+        exerciceService.addExerciceIntoSession(data);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Operation(summary = "Modify Exercice")
@@ -98,9 +108,18 @@ public class ExerciceController {
     public ResponseEntity<Void> deleteExercice(@PathVariable Long id){
         Optional<Exercice> ex = exerciceService.findById(id);
         if(ex.isPresent()){
+            exerciceService.deleteExerciceFromSessions(id);
             exerciceService.deleteExercice(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @Operation(summary = "Delete exercice from session")
+        @DeleteMapping("/exercice/session/{id}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Void> deleteExerciceFromSession(@PathVariable Long id){
+        exerciceService.deleteExerciceFromSelectedSession(id);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 

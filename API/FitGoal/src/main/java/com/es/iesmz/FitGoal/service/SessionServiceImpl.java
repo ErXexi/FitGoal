@@ -8,12 +8,14 @@ import com.es.iesmz.FitGoal.domain.Exercice;
 import com.es.iesmz.FitGoal.domain.Session;
 import com.es.iesmz.FitGoal.domain.User;
 import com.es.iesmz.FitGoal.repository.ExerciceRepository;
+import com.es.iesmz.FitGoal.repository.SessionExerciceRepository;
 import com.es.iesmz.FitGoal.repository.SessionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -30,6 +32,8 @@ public class SessionServiceImpl implements SessionService {
     private ExerciceRepository exerciceRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private SessionExerciceRepository sessionExerciceRepository;
 
     //region Repos
     @Override
@@ -84,19 +88,15 @@ public class SessionServiceImpl implements SessionService {
             return response;
         }
 
-        if(checkExerciceInSession(data)){
-            response.setMessage("Exercice in session already");
-            return response;
-        }
-
         Exercice exercice = optionalExercice.get();
-        session.getExercices().add(exercice);
+        //session.getExercices().add(exercice);
         sessionRepository.save(session);
         response.setMessage("Exercice added to session");
         response.setSuccess(true);
 
         return response;
     }
+
 
     @Override
     public DtoResponse removeExerciceToSession(Long sessionId, int index) {
@@ -108,13 +108,17 @@ public class SessionServiceImpl implements SessionService {
             return response;
         }
         Session session = optionalSession.get();
-        session.getExercices().remove(index);
+
+
+
+       //.getExercices().remove(index);
         sessionRepository.save(session);
         response.setMessage("Exercice removed from session");
         response.setSuccess(true);
 
         return response;
     }
+
 
 
     @Override
@@ -145,18 +149,35 @@ public class SessionServiceImpl implements SessionService {
             response.setMessage("Session not found");
             return response;
         }
+        sessionExerciceRepository.deleteSession(id);
         sessionRepository.deleteById(id);
         response.setSuccess(true);
         response.setMessage("Session deleted successfully");
         return response;
     }
+
+    @Override
+    public DtoResponse deleteSessionRelationship(Long id) {
+        DtoResponse response = new DtoResponse();
+        response.setSuccess(false);
+        if(sessionRepository.findById(id).isEmpty()){
+            response.setMessage("Session not found");
+            return response;
+        }
+        sessionExerciceRepository.deleteSession(id);
+        sessionRepository.deleteById(id);
+        response.setSuccess(true);
+        response.setMessage("Session deleted successfully");
+        return response;
+    }
+
     //endregion
 
     //Region PrivateMethods
     public boolean checkExerciceInSession(DtoSessionAddExercice data){
         Session session = sessionRepository.findById(data.sessionId).get();
         Exercice exercice = exerciceRepository.findById(data.exerciceId).get();
-        List<Exercice> exerciceList = session.getExercices();
+        List<Exercice> exerciceList = new ArrayList<>();
         return exerciceList.contains(exercice);
     }
     //EndRegion

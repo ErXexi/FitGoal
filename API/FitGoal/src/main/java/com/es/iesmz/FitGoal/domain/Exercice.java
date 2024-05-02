@@ -8,7 +8,9 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -53,7 +55,7 @@ public class Exercice {
     @Schema(description = "Exercice's image", example = "pathToImage", required = true)
     private String image;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinTable(
             name = "Exercice_Tag",
             joinColumns = @JoinColumn(name = "id_Exercice"),

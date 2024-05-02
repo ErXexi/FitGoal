@@ -18,4 +18,5 @@ public interface SessionService {
     DtoResponse modifySession(Long id, DtoSession data);
 
     DtoResponse deleteSession(Long id);
+    DtoResponse deleteSessionRelationship(Long id);
 }
