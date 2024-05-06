@@ -16,9 +16,6 @@ public interface SessionExerciceRepository extends CrudRepository<SessionExercic
     String EX_ATTRIBUTES = " E.ID, E.DESCRIPTION, E.IMAGE, E.NAME, E.VIDEO ";
     String SE_ATTRIBUTES = " S.ID, S.NAME, S.URL, S.CREATOR_ID ";
 
-    @Query(value = "SELECT" + EX_ATTRIBUTES + "FROM EXERCICE E INNER JOIN SESSION_EXERCICE SE ON E.ID = SE.EXERCICE_ID WHERE SE.SESSION_ID = :sessionId", nativeQuery = true)
-    List<Exercice> getExercicesFromSessionId(@Param("sessionId") Long sessionId);
-
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM Session_Exercice WHERE Exercice_Id=:exerciceId", nativeQuery = true)

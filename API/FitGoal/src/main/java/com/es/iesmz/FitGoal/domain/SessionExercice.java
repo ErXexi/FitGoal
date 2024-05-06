@@ -7,13 +7,15 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.Date;
+
 import static javax.persistence.CascadeType.DETACH;
 import static javax.persistence.CascadeType.PERSIST;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Entity(name = "session_Exercice")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -32,8 +34,11 @@ public class SessionExercice {
     @JoinColumn(name = "session_id")
     private Session session;
 
+    private Date addedAt;
+
     public SessionExercice(Exercice exercice, Session session) {
         this.exercice = exercice;
         this.session = session;
+        this.addedAt = new Date();
     }
 }

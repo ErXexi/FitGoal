@@ -1,5 +1,8 @@
 package com.es.iesmz.FitGoal.service;
 
+import com.es.iesmz.FitGoal.DTO.Exercice.DtoExercice;
+import com.es.iesmz.FitGoal.DTO.Exercice.DtoExerciceOnSessionDelete;
+import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.domain.Exercice;
 import com.es.iesmz.FitGoal.domain.Session;
@@ -41,7 +44,7 @@ public class ExerciceServiceImpl implements ExerciceService {
     }
 
     @Override
-    public List<Exercice> findBySession(Long id) {
+    public List<DtoExercice> findBySession(Long id) {
         return exerciceRepository.findBySession(id);
     }
 
@@ -62,7 +65,6 @@ public class ExerciceServiceImpl implements ExerciceService {
     public void addExerciceIntoSession(DtoSessionAddExercice data) {
         Exercice ex = exerciceRepository.findById(data.exerciceId).orElseThrow();
         Session s = sessionRepository.findById(data.sessionId).orElseThrow();
-
         SessionExercice sessionExercice = new SessionExercice(ex, s);
         sessionExerciceRepository.save(sessionExercice);
     }
@@ -76,8 +78,16 @@ public class ExerciceServiceImpl implements ExerciceService {
 
     @Override
     @Transactional
-    public void deleteExerciceFromSelectedSession(Long id) {
-        sessionExerciceRepository.deleteExerciceFromSelectedSession(id);
+    public DtoResponse deleteExerciceFromSelectedSession(DtoExerciceOnSessionDelete data) {
+        DtoResponse response = new DtoResponse(false, "");
+        try{
+            exerciceRepository.deleteExerciceFromSession(data.exerciceId, data.sessionId, data.addedAt);
+            response.setSuccess(true);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }finally {
+            return response;
+        }
     }
 
     @Override

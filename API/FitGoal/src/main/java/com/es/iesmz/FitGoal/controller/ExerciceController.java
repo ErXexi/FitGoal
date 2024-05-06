@@ -2,6 +2,9 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
+import com.es.iesmz.FitGoal.DTO.Exercice.DtoExercice;
+import com.es.iesmz.FitGoal.DTO.Exercice.DtoExerciceOnSessionDelete;
+import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.domain.Exercice;
 import com.es.iesmz.FitGoal.service.ExerciceService;
@@ -70,7 +73,7 @@ public class ExerciceController {
             )})
     @GetMapping("/exercice/session/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<List<Exercice>> getExerciceBySession(@PathVariable Long id){
+    public ResponseEntity<List<DtoExercice>> getExerciceBySession(@PathVariable Long id){
         return new ResponseEntity<>(exerciceService.findBySession(id), HttpStatus.OK);
     }
 
@@ -116,11 +119,11 @@ public class ExerciceController {
     }
 
     @Operation(summary = "Delete exercice from session")
-        @DeleteMapping("/exercice/session/{id}")
+        @DeleteMapping("/exercice/session")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Void> deleteExerciceFromSession(@PathVariable Long id){
-        exerciceService.deleteExerciceFromSelectedSession(id);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> deleteExerciceFromSession(@RequestBody DtoExerciceOnSessionDelete data){
+        DtoResponse result = exerciceService.deleteExerciceFromSelectedSession(data);
+        return result.isSuccess() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

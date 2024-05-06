@@ -8,15 +8,14 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.*;
+
+
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name="Exercice")
 public class Exercice {
     @Id
@@ -62,6 +61,4 @@ public class Exercice {
             inverseJoinColumns = @JoinColumn(name = "id_Tag")
     )
     private Set<Tag> tags = new HashSet<>();
-
-
 }
