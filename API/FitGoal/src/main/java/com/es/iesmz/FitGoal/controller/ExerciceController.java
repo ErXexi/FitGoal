@@ -9,6 +9,7 @@ import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.domain.Exercice;
 import com.es.iesmz.FitGoal.domain.Session;
 import com.es.iesmz.FitGoal.service.ExerciceService;
+import com.es.iesmz.FitGoal.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,6 +34,8 @@ import java.util.Set;
 public class ExerciceController {
     @Autowired
     private ExerciceService exerciceService;
+    @Autowired
+    private TagService tagService;
 
     @Operation(summary = "Get all Exercices")
     @ApiResponses(value = {
@@ -75,7 +78,11 @@ public class ExerciceController {
     @GetMapping("/exercice/session/{sessionId}")  // Changed {id} to {sessionId} to match the method parameter
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<List<DtoExercice>> getExerciceBySession(@PathVariable Long sessionId){
-        return new ResponseEntity<>(exerciceService.findBySession(sessionId), HttpStatus.OK);
+        List<DtoExercice> exerciceList = exerciceService.findBySession(sessionId);
+        for (DtoExercice exercice: exerciceList){
+            exercice.setTags(tagService.findByExercice(exercice.getId()));
+        }
+        return new ResponseEntity<>(exerciceList, HttpStatus.OK);
     }
 
 

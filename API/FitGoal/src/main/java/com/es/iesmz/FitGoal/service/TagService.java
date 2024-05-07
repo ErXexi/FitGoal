@@ -12,7 +12,7 @@ public interface TagService {
     Set<Tag> findAll();
     Optional<Tag> findByName(String name);
     Optional<Tag> findById(Long id);
-    Set<Tag> findByExercice(int id);
+    Set<Tag> findByExercice(Long id);
     Tag addTag(Tag tag);
     Tag modifyTag(Long id, Tag newTag);
     void deleteTag(Long id);

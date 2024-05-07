@@ -30,7 +30,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Set<Tag> findByExercice(int id) {
+    public Set<Tag> findByExercice(Long id) {
         return  tagRepository.findByExercice(id);
     }
 

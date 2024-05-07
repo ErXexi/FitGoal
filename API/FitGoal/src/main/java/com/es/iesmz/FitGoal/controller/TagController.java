@@ -79,7 +79,7 @@ public class TagController {
     })
     @GetMapping("/tag/exercice/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Set<Tag>> getTagsByExercice(@PathVariable int id){
+    public ResponseEntity<Set<Tag>> getTagsByExercice(@PathVariable Long id){
         return new ResponseEntity<>(tagService.findByExercice(id), HttpStatus.OK);
     }
     @Operation(summary = "Add new Tag")

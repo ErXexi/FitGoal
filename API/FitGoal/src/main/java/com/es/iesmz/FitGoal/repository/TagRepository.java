@@ -17,6 +17,7 @@ public interface TagRepository extends CrudRepository<Tag, Long> {
 
     Optional<Tag> findByName(String name);
 
-    @Query(value = "SELECT" + attributes + "FROM TAG T WHERE T.ID = (SELECT ET.id_tag FROM EXERCICE_TAG ET WHERE id_exerciCe = :exerciceId)" , nativeQuery = true)
-    Set<Tag> findByExercice(@Param("exerciceId") int id);
+
+    @Query(value = "SELECT" + attributes + "FROM TAG T INNER JOIN EXERCICE_TAG ET ON ET.ID_TAG = T.ID WHERE ET.ID_EXERCICE = :exerciceId", nativeQuery = true)
+    Set<Tag> findByExercice(@Param("exerciceId") Long id);
 }
