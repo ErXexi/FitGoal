@@ -63,9 +63,19 @@ public class SessionServiceImpl implements SessionService {
         Session newSession = new Session();
         newSession.setCreator(user.get());
         modelMapper.map(data, newSession);
-        sessionRepository.save(newSession);
-        response.setSuccess(true);
-        response.setMessage("Session created successfully");
+        // Guardar la sesión en la base de datos
+        Session savedSession = sessionRepository.save(newSession);
+        // Verificar si la sesión se guardó correctamente
+        if (savedSession != null && savedSession.getId() != null) {
+            // Construir la URL con el ID de la sesión
+            savedSession.setUrl("http://localhost:2079/exercice/session/"+ savedSession.getId());
+            // Guardar la sesión actualizada con la URL en la base de datos
+            sessionRepository.save(savedSession);
+            response.setSuccess(true);
+            response.setMessage("Session created successfully");
+        } else {
+            response.setMessage("Failed to create session");
+        }
         return response;
     }
 

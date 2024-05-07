@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -44,8 +47,8 @@ public class ExerciceServiceImpl implements ExerciceService {
     }
 
     @Override
-    public List<DtoExercice> findBySession(Long id) {
-        return exerciceRepository.findBySession(id);
+    public List<DtoExercice> findBySession(Long sessionId) {
+        return exerciceRepository.findBySession(sessionId);
     }
 
     @Override
@@ -80,15 +83,19 @@ public class ExerciceServiceImpl implements ExerciceService {
     @Transactional
     public DtoResponse deleteExerciceFromSelectedSession(DtoExerciceOnSessionDelete data) {
         DtoResponse response = new DtoResponse(false, "");
-        try{
-            exerciceRepository.deleteExerciceFromSession(data.exerciceId, data.sessionId, data.addedAt);
+        try {
+            exerciceRepository.deleteExerciceFromSession(data.getExerciceId(), data.getSessionId(), data.getAddedAt());
             response.setSuccess(true);
-        }catch (Exception ex){
+        } catch (DateTimeParseException ex) {
             ex.printStackTrace();
-        }finally {
-            return response;
+            response.setMessage("Error parsing date and time format. Please provide the date and time in the format 'yyyy-MM-dd HH:mm:ss'.");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            response.setMessage("An error occurred while deleting the exercise from the session. Please try again later.");
         }
+        return response;
     }
+
 
     @Override
     @Transactional

@@ -1,25 +1,28 @@
 package com.es.iesmz.FitGoal.DTO.Exercice;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class DtoExercice {
-    public Long id;
-    public String name;
-    public String description;
-    public String image;
-    public String video;
-    public Date addedAtSession;
+    private Long id;
+    private String name;
+    private String description;
+    private String image;
+    private String video;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime addedAtSession; // Make sure this matches what you need
 
-    public DtoExercice(String name, String description, String image, String video, Date addedAtSession) {
+    public DtoExercice(Long id, String name, String description, String image, String video, LocalDateTime addedAtSession) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.image = image;

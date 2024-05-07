@@ -7,6 +7,7 @@ import com.es.iesmz.FitGoal.DTO.Exercice.DtoExerciceOnSessionDelete;
 import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.domain.Exercice;
+import com.es.iesmz.FitGoal.domain.Session;
 import com.es.iesmz.FitGoal.service.ExerciceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -71,11 +72,12 @@ public class ExerciceController {
             @ApiResponse(responseCode = "200", description = "find exercices by session id",
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Exercice.class)))
             )})
-    @GetMapping("/exercice/session/{id}")
+    @GetMapping("/exercice/session/{sessionId}")  // Changed {id} to {sessionId} to match the method parameter
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<List<DtoExercice>> getExerciceBySession(@PathVariable Long id){
-        return new ResponseEntity<>(exerciceService.findBySession(id), HttpStatus.OK);
+    public ResponseEntity<List<DtoExercice>> getExerciceBySession(@PathVariable Long sessionId){
+        return new ResponseEntity<>(exerciceService.findBySession(sessionId), HttpStatus.OK);
     }
+
 
     @Operation(summary = "Add new Exercice")
     @PostMapping("/exercice")

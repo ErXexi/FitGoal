@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -34,7 +33,6 @@ public class Session {
     @Schema(description = "Session's name", example = "CD Iraklis youth sesion", required = true)
     private String name;
 
-    @NotBlank
     @Column(name = "url")
     @Schema(description = "Session's url", example = "pathToSession", required = true)
     private String url;
@@ -52,4 +50,10 @@ public class Session {
     @JsonIgnore
     private User creator;
 
+    public Session(Long id, String name, Set<User> allowedUsers, User creator) {
+        this.id = id;
+        this.name = name;
+        this.allowedUsers = allowedUsers;
+        this.creator = creator;
+    }
 }

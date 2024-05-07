@@ -61,4 +61,8 @@ public class Exercice {
             inverseJoinColumns = @JoinColumn(name = "id_Tag")
     )
     private Set<Tag> tags = new HashSet<>();
+
+    @OneToMany(mappedBy = "exercice")
+    @JsonIgnore
+    private Set<SessionExercice> sessionExercices = new HashSet<>();
 }
