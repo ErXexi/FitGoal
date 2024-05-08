@@ -45,12 +45,8 @@ public class Exercice {
     private String description;
 
     @NotBlank
-    @Column(name = "video")
-    @Schema(description = "Exercice's video", example = "pathToVideo", required = true)
-    private String video;
-
-    @NotBlank
     @Column(name = "image")
+    @Lob
     @Schema(description = "Exercice's image", example = "pathToImage", required = true)
     private String image;
 

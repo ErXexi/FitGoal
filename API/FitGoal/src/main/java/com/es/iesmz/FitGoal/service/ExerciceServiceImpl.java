@@ -14,9 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +59,11 @@ public class ExerciceServiceImpl implements ExerciceService {
         Exercice ex = exerciceRepository.findById(id).orElseThrow();
         newExercice.setId(id);
         return exerciceRepository.save(newExercice);
+    }
+
+    @Override
+    public Exercice getImageFirstExerciceFromSession(Long sessionId) {
+        return exerciceRepository.getImageFirstExerciceFromSession(sessionId);
     }
 
     @Override

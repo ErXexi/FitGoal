@@ -5,7 +5,6 @@ import com.es.iesmz.FitGoal.DTO.Exercice.DtoExerciceOnSessionDelete;
 import com.es.iesmz.FitGoal.DTO.Helper.DtoResponse;
 import com.es.iesmz.FitGoal.DTO.Session.DtoSessionAddExercice;
 import com.es.iesmz.FitGoal.domain.Exercice;
-import com.es.iesmz.FitGoal.domain.Session;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +18,7 @@ public interface ExerciceService {
     List<DtoExercice> findBySession(Long sessionId);
     Exercice addExercice(Exercice exercice);
     Exercice modifyExercice(Long id, Exercice newExercice);
+    Exercice getImageFirstExerciceFromSession(Long sessionId);
     void addExerciceIntoSession(DtoSessionAddExercice data);
     void deleteExercice(Long id);
     DtoResponse deleteExerciceFromSelectedSession(DtoExerciceOnSessionDelete data);

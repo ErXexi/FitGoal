@@ -68,6 +68,12 @@ public class SessionController {
         return new ResponseEntity<>(sessionService.findByCreatorId(id), HttpStatus.OK);
     }
 
+    @GetMapping("/session/image/{sessionId}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Exercice> getImageOfFirstExerciceFromSession(@PathVariable Long sessionId){
+        return new ResponseEntity<>(exerciceService.getImageFirstExerciceFromSession(sessionId), HttpStatus.OK);
+    }
+
 
 
     @Operation(summary = "Add new Session")

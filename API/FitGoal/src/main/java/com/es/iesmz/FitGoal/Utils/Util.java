@@ -1,8 +1,12 @@
 package com.es.iesmz.FitGoal.Utils;
 
+import org.apache.commons.net.util.Base64;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.zip.DeflaterOutputStream;
 
 public class Util {
     static String filePath = "./src/main/resources/application.properties";
