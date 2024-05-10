@@ -81,6 +81,17 @@ public class TeamController {
     public ResponseEntity<Optional<Team>> getTeamByName(@PathVariable String name){
         return new ResponseEntity<>(teamService.findByName(name), HttpStatus.OK);
     }
+
+    @Operation(summary = "Get team by user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "find team by user id",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Team.class)))
+            )})
+    @GetMapping("/team/user/{userId}")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    public ResponseEntity<Team> getTeamByUserId(@PathVariable Long userId){
+        return new ResponseEntity<>(teamService.findByUser(userId), HttpStatus.OK);
+    }
     @Operation(summary = "Add new Team")
     @PostMapping("/team")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")

@@ -20,4 +20,7 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
     @Query(value = "SELECT" + attributes + "FROM TEAM T INNER JOIN PLAYER P ON T.ID = P.TEAM_ID WHERE P.TEAM_ID = :id", nativeQuery = true)
     Team findByPlayer(@Param(value = "id")int id);
 
+    @Query(value = "SELECT" + attributes + "FROM TEAM T INNER JOIN USER U ON T.ID = U.TEAM WHERE U.ID=:userId",nativeQuery = true)
+    Team findByUser(@Param(value = "userId")Long id);
+
 }

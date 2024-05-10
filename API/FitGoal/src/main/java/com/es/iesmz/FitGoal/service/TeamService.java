@@ -12,6 +12,7 @@ public interface TeamService {
     Optional<Team> findById(Long id);
     Set<Team> findByCity(String city);
     Set<Team> findByProvince(String province);
+    Team findByUser(Long userId);
     Optional<Team> findByName(String name);
     Team findByPlayer(int id);
     Team addTeam(Team team);
