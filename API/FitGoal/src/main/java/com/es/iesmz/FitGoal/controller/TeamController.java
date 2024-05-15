@@ -34,11 +34,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.Inflater;
+import java.util.zip.InflaterInputStream;
 
 
 //https://github.com/bezkoder/spring-boot-spring-security-jwt-authentication
@@ -90,7 +92,9 @@ public class TeamController {
     @GetMapping("/team/user/{userId}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Team> getTeamByUserId(@PathVariable Long userId){
-        return new ResponseEntity<>(teamService.findByUser(userId), HttpStatus.OK);
+        Team t = teamService.findByUser(userId);
+        t.setCrest(decompressBase64String(t.getCrest()));
+        return new ResponseEntity<>(t, HttpStatus.OK);
     }
     @Operation(summary = "Add new Team")
     @PostMapping("/team")
@@ -121,5 +125,29 @@ public class TeamController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public static String decompressBase64String(String compressedBase64String) {
+        try {
+            byte[] compressedBytes = Base64.getDecoder().decode(compressedBase64String);
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(compressedBytes);
+            InflaterInputStream inflaterInputStream = new InflaterInputStream(inputStream, new Inflater());
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inflaterInputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            inflaterInputStream.close();
+            byte[] decompressedBytes = outputStream.toByteArray();
+
+            return Base64.getEncoder().encodeToString(decompressedBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

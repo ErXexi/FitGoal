@@ -45,7 +45,7 @@ public class Team {
         private String city;
 
         @NotBlank
-        @Size(max = 20)
+        @Lob
         @Column(name = "crest")
         @Schema(description = "Team's crest", example = "pathToImage", required = true)
         private String crest;

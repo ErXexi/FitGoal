@@ -45,7 +45,7 @@ public class Player {
     private List<Position> positions;
 
     @NotBlank
-    @Size(max = 20)
+    @Lob
     @Column(name = "photo")
     @Schema(description = "Player's photo", example = "pathToImage", required = true)
     private String photo;
@@ -67,14 +67,13 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Player(String name, String surname, List<Position> positions, String photo, int yellowCards, int redCards, int minutes, Team team) {
+    public Player(String name, String surname, List<Position> positions, String photo, Team team) {
         this.name = name;
         this.surname = surname;
         this.positions = positions;
         this.photo = photo;
-        this.yellowCards = yellowCards;
-        this.redCards = redCards;
-        this.minutes = minutes;
         this.team = team;
     }
+
+
 }
