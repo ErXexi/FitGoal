@@ -109,7 +109,6 @@ public class ExerciceController {
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
     public ResponseEntity<Exercice> addExercice(@RequestBody Exercice exercice) {
         exercice.setImage(compressBase64String(exercice.getImage()));
-        System.out.println(exercice.getImage());
         Exercice e = exerciceService.addExercice(exercice);
         return new ResponseEntity<>(e, HttpStatus.OK);
     }

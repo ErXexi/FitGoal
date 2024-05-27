@@ -13,4 +13,6 @@ public class DtoPlayer {
     public String Name;
     public String Surname;
     public String Position;
+    public String photo;
+    public Long teamId;
 }

@@ -2,6 +2,7 @@ package com.es.iesmz.FitGoal.controller;
 
 
 
+import com.es.iesmz.FitGoal.DTO.Player.DtoPlayer;
 import com.es.iesmz.FitGoal.domain.*;
 import com.es.iesmz.FitGoal.payload.request.UserLoginRequest;
 import com.es.iesmz.FitGoal.payload.request.UserSignupRequest;
@@ -12,6 +13,7 @@ import com.es.iesmz.FitGoal.repository.UserRepository;
 import com.es.iesmz.FitGoal.security.jwt.JwtUtils;
 import com.es.iesmz.FitGoal.security.services.UserDetailsImpl;
 import com.es.iesmz.FitGoal.service.PlayerService;
+import com.es.iesmz.FitGoal.service.TeamService;
 import com.es.iesmz.FitGoal.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,6 +41,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 
@@ -49,6 +53,8 @@ import java.util.zip.InflaterInputStream;
 public class PlayerController {
     @Autowired
     PlayerService playerService;
+    @Autowired
+    TeamService teamService;
 
     @Operation(summary = "Get all Players")
     @ApiResponses(value = {
@@ -114,18 +120,35 @@ public class PlayerController {
     @Operation(summary = "Add new Player")
     @PostMapping("/player")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Player> addPlayer(@RequestBody Player player){
-        Player p = playerService.addPlayer(player);
-        return new ResponseEntity<>(p, HttpStatus.OK);
+    public ResponseEntity<Player> addPlayer(@RequestBody DtoPlayer player){
+        Team team = teamService.findById(player.teamId).orElseThrow();
+        Position position = Position.valueOf(player.getPosition());
+        player.setPhoto(compressBase64String(player.getPhoto()));
+        Player actualPlayer = new Player();
+        actualPlayer.setPhoto(player.getPhoto());
+        actualPlayer.setName(player.Name);
+        actualPlayer.setSurname(player.getSurname());
+        actualPlayer.setPositions(position);
+        actualPlayer.setTeam(team);
+        playerService.addPlayer(actualPlayer);
+        return new ResponseEntity<>(actualPlayer, HttpStatus.OK);
     }
 
     @Operation(summary = "Modify Player")
     @PutMapping("/player/{id}")
     @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
-    public ResponseEntity<Player> modifyPlayer(@PathVariable Long id,@RequestBody Player player){
+    public ResponseEntity<Player> modifyPlayer(@PathVariable Long id,@RequestBody DtoPlayer player){
         Optional<Player> p = playerService.findById(id);
         if(p.isPresent()){
-            Player newPlayer = playerService.modifyPlayer(id, player);
+            Position position = Position.valueOf(player.getPosition());
+            Player actualPlayer = p.get();
+            actualPlayer.setPhoto(compressBase64String(player.photo));
+            actualPlayer.setName(player.Name);
+            actualPlayer.setSurname(player.getSurname());
+            actualPlayer.setPositions(position);
+            Team team = teamService.findById(actualPlayer.getTeam().getId()).orElseThrow();
+            actualPlayer.setTeam(team);
+            Player newPlayer = playerService.modifyPlayer(id, actualPlayer);
             return new ResponseEntity<>(newPlayer, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -138,9 +161,32 @@ public class PlayerController {
         Optional<Player> p = playerService.findById(id);
         if(p.isPresent()){
             playerService.deletePlayer(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    public static String compressBase64String(String base64String) {
+        try {//  w    w  w.    de  m   o  2   s.  c   o   m
+            // Step 1: Decode the Base64 string to get the original binary data.
+            byte[] decodedBytes = Base64.getDecoder().decode(base64String);
+
+            // Step 2: Compress the binary data using gzip compression.
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(outputStream, new Deflater(Deflater.BEST_COMPRESSION));
+            deflaterOutputStream.write(decodedBytes);
+            deflaterOutputStream.finish();
+
+            byte[] compressedBytes = outputStream.toByteArray();
+
+            // Step 3: Encode the compressed binary data back to Base64 format.
+            String compressedBase64String = Base64.getEncoder().encodeToString(compressedBytes);
+
+            return compressedBase64String;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String decompressBase64String(String compressedBase64String) {

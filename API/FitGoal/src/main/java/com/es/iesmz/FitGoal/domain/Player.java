@@ -39,10 +39,9 @@ public class Player {
     @Schema(description = "Player's surnames", example = "Viyuelas Castillo", required = true)
     private String surname;
 
-    @ElementCollection
     @Column(name = "position")
     @Schema(description = "Player's positions", example = "[RB, CB, LB]", required = true)
-    private List<Position> positions;
+    private Position positions;
 
     @NotBlank
     @Lob
@@ -67,7 +66,7 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    public Player(String name, String surname, List<Position> positions, String photo, Team team) {
+    public Player(String name, String surname, Position positions, String photo, Team team) {
         this.name = name;
         this.surname = surname;
         this.positions = positions;
