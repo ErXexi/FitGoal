@@ -15,4 +15,5 @@ public class DtoPlayer {
     public String Position;
     public String photo;
     public Long teamId;
+    public int number;
 }

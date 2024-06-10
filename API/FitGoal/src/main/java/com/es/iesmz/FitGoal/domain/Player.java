@@ -33,6 +33,12 @@ public class Player {
     @Schema(description = "Player's name", example = "Pepe", required = true)
     private String name;
 
+    @Column(name = "number")
+    @Schema(description = "Player's number", example = "1", required = true)
+    private int number;
+
+
+
     @NotBlank
     @Size(max = 20)
     @Column(name = "surnames")

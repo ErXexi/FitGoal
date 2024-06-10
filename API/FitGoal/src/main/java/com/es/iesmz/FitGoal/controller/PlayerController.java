@@ -130,6 +130,7 @@ public class PlayerController {
         actualPlayer.setSurname(player.getSurname());
         actualPlayer.setPositions(position);
         actualPlayer.setTeam(team);
+        actualPlayer.setNumber(player.getNumber());
         playerService.addPlayer(actualPlayer);
         return new ResponseEntity<>(actualPlayer, HttpStatus.OK);
     }
@@ -148,6 +149,7 @@ public class PlayerController {
             actualPlayer.setPositions(position);
             Team team = teamService.findById(actualPlayer.getTeam().getId()).orElseThrow();
             actualPlayer.setTeam(team);
+            actualPlayer.setNumber(player.getNumber());
             Player newPlayer = playerService.modifyPlayer(id, actualPlayer);
             return new ResponseEntity<>(newPlayer, HttpStatus.OK);
         }

@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Long> {
-    String attributes = " P.ID, P.NAME, P.SURNAMES, P.TEAM_ID, P.PHOTO, P.MINUTES, P.YELLOW_CARDS, P.RED_CARDS, P.POSITION ";
+    String attributes = " P.ID, P.NAME, P.SURNAMES, P.TEAM_ID, P.PHOTO, P.MINUTES, P.YELLOW_CARDS, P.RED_CARDS, P.POSITION, P.NUMBER ";
     Set<Player> findAll();
     Optional<Player> findById(Long id);
     Set<Player> findByName(String name);

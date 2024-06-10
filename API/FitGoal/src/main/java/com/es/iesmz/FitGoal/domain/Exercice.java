@@ -25,7 +25,7 @@ public class Exercice {
     private Long id;
 
     @NotBlank
-    @Size(max = 20)
+    @Size(max = 50)
     @Column(name = "name")
     @Schema(description = "Exercice's name", example = "Running", required = true)
     private String name;
@@ -49,6 +49,11 @@ public class Exercice {
     @Lob
     @Schema(description = "Exercice's image", example = "pathToImage", required = true)
     private String image;
+
+    @Column(name = "video")
+    @Lob
+    @Schema(description = "Exercice's video", example = "pathToImage", required = true)
+    private String video;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH})
     @JoinTable(
