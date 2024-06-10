@@ -25,7 +25,7 @@ public interface ExerciceRepository extends CrudRepository<Exercice, Long> {
             "WHERE T.NAME = :tag", nativeQuery = true)
     Set<Exercice> findByTag(@Param("tag") String tag);
 
-    @Query("SELECT new com.es.iesmz.FitGoal.DTO.Exercice.DtoExercice(e.id, e.name, e.description, e.image, se.addedAt) FROM Exercice e JOIN e.sessionExercices se WHERE se.session.id = :sessionId ORDER BY se.addedAt")
+    @Query("SELECT new com.es.iesmz.FitGoal.DTO.Exercice.DtoExercice(e.id, e.name, e.description, e.image, e.video, se.addedAt) FROM Exercice e JOIN e.sessionExercices se WHERE se.session.id = :sessionId ORDER BY se.addedAt")
     List<DtoExercice> findBySession(@Param("sessionId") Long sessionId);
 
     @Query(value = "SELECT"+ ATTRIBUTES + "FROM EXERCICE E INNER JOIN SESSION_EXERCICE SE ON SE.EXERCICE_ID = E.ID WHERE SE.SESSION_ID = :sessionId LIMIT 1", nativeQuery = true)

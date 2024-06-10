@@ -97,7 +97,7 @@ public class PlayerController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
     @GetMapping("/player/team/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF') || hasRole('ROLE_USER')")
     public ResponseEntity<Set<Player>> getPlayerByTeam(@PathVariable Long id){
         Set<Player> players = playerService.findByTeam(id);
         for(Player player : players){
@@ -112,7 +112,7 @@ public class PlayerController {
                     content = @Content(array = @ArraySchema(schema = @Schema(implementation = Player.class)))
             )})
     @GetMapping("/player/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_STAFF') || hasRole('ROLE_USER')")
     public ResponseEntity<Optional<Player>> getPlayerById(@PathVariable Long id){
         return new ResponseEntity<>(playerService.findById(id), HttpStatus.OK);
     }

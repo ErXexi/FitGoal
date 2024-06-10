@@ -69,6 +69,7 @@ public class ExerciceController {
     public ResponseEntity<Exercice> getExerciceById(@PathVariable Long id){
         Exercice exercice = exerciceService.findById(id).orElseThrow();
         exercice.setImage(decompressBase64String(exercice.getImage()));
+        System.out.println(exercice.getVideo());
 
         return new ResponseEntity<>(exercice, HttpStatus.OK);
     }
@@ -100,7 +101,9 @@ public class ExerciceController {
         for (DtoExercice exercice: exerciceList){
             exercice.setImage(decompressBase64String(exercice.getImage()));
             exercice.setTags(tagService.findByExercice(exercice.getId()));
+            System.out.println(exercice);
         }
+
         return new ResponseEntity<>(exerciceList, HttpStatus.OK);
     }
 
