@@ -1,12 +1,6 @@
-# 2damTransita3
+# FitGoal
 
-Grupo Formado:
-Isaac Abarca
-Saleem siddique
-Ángel Yong
-Álex Martín
-
-Form: https://goo.su/cr6b
+Project made by Álex Martín Rubio for the end of the vocational training of the course "Multiplatform Application Development" in IES Marcos Zaragoza.
 
 
 
